@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Phone, 
   Shield, 
@@ -14,6 +15,7 @@ import {
   CheckCircle
 } from "lucide-react";
 import sabziSaathiLogo from "@/assets/sabzi-saathi-logo.png";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LoginFormProps {
   onLogin: (userType: "vendor" | "hub", phone: string) => void;
@@ -25,27 +27,77 @@ export function LoginForm({ onLogin }: LoginFormProps) {
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [userType, setUserType] = useState<"vendor" | "hub">("vendor");
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSendOTP = async () => {
     if (phone.length !== 10) return;
     
     setIsLoading(true);
-    // Simulate OTP sending
-    setTimeout(() => {
-      setStep("otp");
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        phone: `+91${phone}`,
+        options: {
+          shouldCreateUser: true,
+        }
+      });
+
+      if (error) {
+        toast({
+          title: "Error sending OTP",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        setStep("otp");
+        toast({
+          title: "OTP sent successfully",
+          description: `Verification code sent to +91 ${phone}`,
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to send OTP. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const handleVerifyOTP = async () => {
     if (otp.length !== 6) return;
     
     setIsLoading(true);
-    // Simulate OTP verification
-    setTimeout(() => {
-      onLogin(userType, phone);
+    try {
+      const { error } = await supabase.auth.verifyOtp({
+        phone: `+91${phone}`,
+        token: otp,
+        type: 'sms'
+      });
+
+      if (error) {
+        toast({
+          title: "Invalid OTP",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Login successful",
+          description: "Welcome to SabziSaathi!",
+        });
+        onLogin(userType, phone);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: "Failed to verify OTP. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const features = [

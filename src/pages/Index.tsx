@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { VendorDashboard } from "@/components/vendor/VendorDashboard";
 import { HubDashboard } from "@/components/hub/HubDashboard";
 import { LoginForm } from "@/components/auth/LoginForm";
+import { Toaster } from "@/components/ui/toaster";
 
 interface User {
   type: "vendor" | "hub";
@@ -20,7 +21,12 @@ const Index = () => {
   };
 
   if (!user) {
-    return <LoginForm onLogin={handleLogin} />;
+    return (
+      <>
+        <LoginForm onLogin={handleLogin} />
+        <Toaster />
+      </>
+    );
   }
 
   return (
@@ -39,6 +45,7 @@ const Index = () => {
           <HubDashboard />
         )}
       </main>
+      <Toaster />
     </div>
   );
 };

@@ -15,7 +15,7 @@ import {
   CheckCircle
 } from "lucide-react";
 import sabziSaathiLogo from "@/assets/sabzi-saathi-logo.png";
-import { supabase } from "@/integrations/supabase/client";
+
 
 interface LoginFormProps {
   onLogin: (userType: "vendor" | "hub", phone: string) => void;
@@ -33,71 +33,38 @@ export function LoginForm({ onLogin }: LoginFormProps) {
     if (phone.length !== 10) return;
     
     setIsLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        phone: `+91${phone}`,
-        options: {
-          shouldCreateUser: true,
-        }
-      });
-
-      if (error) {
-        toast({
-          title: "Error sending OTP",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
-        setStep("otp");
-        toast({
-          title: "OTP sent successfully",
-          description: `Verification code sent to +91 ${phone}`,
-        });
-      }
-    } catch (error: any) {
+    // Simulate OTP sending
+    setTimeout(() => {
+      setStep("otp");
       toast({
-        title: "Error",
-        description: "Failed to send OTP. Please try again.",
-        variant: "destructive",
+        title: "OTP sent successfully",
+        description: `Verification code sent to +91 ${phone}`,
       });
-    } finally {
       setIsLoading(false);
-    }
+    }, 1500);
   };
 
   const handleVerifyOTP = async () => {
     if (otp.length !== 6) return;
     
     setIsLoading(true);
-    try {
-      const { error } = await supabase.auth.verifyOtp({
-        phone: `+91${phone}`,
-        token: otp,
-        type: 'sms'
-      });
-
-      if (error) {
-        toast({
-          title: "Invalid OTP",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
+    // Simulate OTP verification (accept "123456" as valid OTP)
+    setTimeout(() => {
+      if (otp === "123456") {
         toast({
           title: "Login successful",
           description: "Welcome to SabziSaathi!",
         });
         onLogin(userType, phone);
+      } else {
+        toast({
+          title: "Invalid OTP",
+          description: "Please enter the correct OTP (use 123456 for demo)",
+          variant: "destructive",
+        });
       }
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Failed to verify OTP. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
       setIsLoading(false);
-    }
+    }, 1500);
   };
 
   const features = [

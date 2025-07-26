@@ -1,12 +1,44 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Header } from "@/components/layout/Header";
+import { VendorDashboard } from "@/components/vendor/VendorDashboard";
+import { HubDashboard } from "@/components/hub/HubDashboard";
+import { LoginForm } from "@/components/auth/LoginForm";
+
+interface User {
+  type: "vendor" | "hub";
+  phone: string;
+  name: string;
+}
 
 const Index = () => {
+  const [user, setUser] = useState<User | null>(null);
+
+  const handleLogin = (userType: "vendor" | "hub", phone: string) => {
+    // In a real app, this would validate with Supabase
+    const name = userType === "vendor" ? "राज पटेल" : "Green Valley Hub";
+    setUser({ type: userType, phone, name });
+  };
+
+  if (!user) {
+    return <LoginForm onLogin={handleLogin} />;
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header 
+        userType={user.type}
+        userName={user.name}
+        cartItems={user.type === "vendor" ? 3 : undefined}
+        walletBalance={user.type === "vendor" ? 2500 : undefined}
+      />
+      
+      <main className="container mx-auto px-4 py-8">
+        {user.type === "vendor" ? (
+          <VendorDashboard />
+        ) : (
+          <HubDashboard />
+        )}
+      </main>
     </div>
   );
 };

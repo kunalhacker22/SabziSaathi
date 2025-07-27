@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DailySabziRates } from "./DailySabziRates";
+import { AISearch } from "@/components/common/AISearch";
 import freshVegetablesHero from "@/assets/fresh-vegetables-hero.jpg";
 import { 
   Clock, 
@@ -251,6 +252,9 @@ export function VendorDashboard() {
 
       {/* Today's Rates Section */}
       <DailySabziRates />
+      
+      {/* AI Search Section */}
+      <AISearch userType="vendor" />
     </div>
   );
 }

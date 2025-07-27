@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { AISearch } from "@/components/common/AISearch";
 import vendorStallImage from "@/assets/vendor-stall.jpg";
 import {
   Package,
@@ -425,6 +426,9 @@ export function HubDashboard() {
           <span>Delivery Routes</span>
         </Button>
       </div>
+      
+      {/* AI Search Section */}
+      <AISearch userType="hub" />
     </div>
   );
 }

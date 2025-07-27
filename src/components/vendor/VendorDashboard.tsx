@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { DailySabziRates } from "./DailySabziRates";
 import { AISearch } from "@/components/common/AISearch";
 import freshVegetablesHero from "@/assets/fresh-vegetables-hero.jpg";
+import { Link } from "react-router-dom";
 import { 
   Clock, 
   MapPin, 
@@ -98,9 +99,11 @@ export function VendorDashboard() {
             </div>
             <h3 className="font-semibold mb-2">नया ऑर्डर</h3>
             <p className="text-sm text-muted-foreground mb-4">Fresh vegetables order करें</p>
-            <Button variant="outline" size="sm" className="w-full">
-              ऑर्डर करें
-            </Button>
+            <Link to="/orders">
+              <Button variant="outline" size="sm" className="w-full">
+                ऑर्डर करें
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 
@@ -111,9 +114,11 @@ export function VendorDashboard() {
             </div>
             <h3 className="font-semibold mb-2">प्रीप स्लॉट</h3>
             <p className="text-sm text-muted-foreground mb-4">Hub में prep time book करें</p>
-            <Button variant="outline" size="sm" className="w-full">
-              स्लॉट बुक करें
-            </Button>
+            <Link to="/slots">
+              <Button variant="outline" size="sm" className="w-full">
+                स्लॉट बुक करें
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 
@@ -154,10 +159,12 @@ export function VendorDashboard() {
                 <Package className="h-5 w-5 text-primary" />
                 <span>आने वाले ऑर्डर्स</span>
               </CardTitle>
-              <Button variant="ghost" size="sm">
-                सभी देखें
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link to="/orders">
+                <Button variant="ghost" size="sm">
+                  सभी देखें
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">

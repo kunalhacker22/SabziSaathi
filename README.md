@@ -42,6 +42,12 @@ Ready to experience the power of SabziSaathi? Follow these simple steps to get y
 
 **URL**: https://lovable.dev/projects/9213d2cb-b678-416d-9d0f-fa4858aa63fe
 
+## 📺 Video Demonstration
+
+Experience SabziSaathi in action! Watch our short demo video to see the key features and workflows:
+
+**URL**: https://youtu.be/FIneTbKUBVc
+
 
 ## 🧑‍💻 Team Members
 

@@ -4,11 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { 
-  Phone, 
-  Shield, 
+  Mail, 
+  Lock, 
   Users, 
   Store,
   ArrowRight,
@@ -18,48 +17,32 @@ import sabziSaathiLogo from "@/assets/sabzi-saathi-logo.png";
 
 
 interface LoginFormProps {
-  onLogin: (userType: "vendor" | "hub", phone: string) => void;
+  onLogin: (userType: "vendor" | "hub", email: string) => void;
 }
 
 export function LoginForm({ onLogin }: LoginFormProps) {
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [step, setStep] = useState<"phone" | "otp">("phone");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [userType, setUserType] = useState<"vendor" | "hub">("vendor");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleSendOTP = async () => {
-    if (phone.length !== 10) return;
+  const handleLogin = async () => {
+    if (!email || !password) return;
     
     setIsLoading(true);
-    // Simulate OTP sending
+    // Simulate login verification (accept any email with password "password123")
     setTimeout(() => {
-      setStep("otp");
-      toast({
-        title: "OTP sent successfully",
-        description: `Verification code sent to +91 ${phone}`,
-      });
-      setIsLoading(false);
-    }, 1500);
-  };
-
-  const handleVerifyOTP = async () => {
-    if (otp.length !== 6) return;
-    
-    setIsLoading(true);
-    // Simulate OTP verification (accept "123456" as valid OTP)
-    setTimeout(() => {
-      if (otp === "123456") {
+      if (password === "password123") {
         toast({
           title: "Login successful",
           description: "Welcome to SabziSaathi!",
         });
-        onLogin(userType, phone);
+        onLogin(userType, email);
       } else {
         toast({
-          title: "Invalid OTP",
-          description: "Please enter the correct OTP (use 123456 for demo)",
+          title: "Invalid credentials",
+          description: "Please check your email and password (use 'password123' for demo)",
           variant: "destructive",
         });
       }
@@ -148,149 +131,94 @@ export function LoginForm({ onLogin }: LoginFormProps) {
           <Card className="shadow-market border-0">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold">
-                {step === "phone" ? "Welcome Back!" : "Verify OTP"}
+                Welcome Back!
               </CardTitle>
               <p className="text-muted-foreground">
-                {step === "phone" 
-                  ? "Enter your mobile number to continue" 
-                  : `OTP sent to +91 ${phone}`
-                }
+                Sign in to your account to continue
               </p>
             </CardHeader>
             <CardContent className="space-y-6">
-              {step === "phone" ? (
-                <>
-                  <Tabs value={userType} onValueChange={(value) => setUserType(value as "vendor" | "hub")}>
-                    <TabsList className="grid w-full grid-cols-2 mb-6">
-                      <TabsTrigger value="vendor" className="flex items-center space-x-2">
-                        <Users className="h-4 w-4" />
-                        <span>Vendor</span>
-                      </TabsTrigger>
-                      <TabsTrigger value="hub" className="flex items-center space-x-2">
-                        <Store className="h-4 w-4" />
-                        <span>Hub Operator</span>
-                      </TabsTrigger>
-                    </TabsList>
+              <Tabs value={userType} onValueChange={(value) => setUserType(value as "vendor" | "hub")}>
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="vendor" className="flex items-center space-x-2">
+                    <Users className="h-4 w-4" />
+                    <span>Vendor</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="hub" className="flex items-center space-x-2">
+                    <Store className="h-4 w-4" />
+                    <span>Hub Operator</span>
+                  </TabsTrigger>
+                </TabsList>
 
-                    <TabsContent value="vendor" className="space-y-4">
-                      <div className="text-center p-4 bg-primary/5 rounded-lg border">
-                        <Users className="h-12 w-12 text-primary mx-auto mb-2" />
-                        <h3 className="font-semibold">Street Food Vendor</h3>
-                        <p className="text-sm text-muted-foreground">
-                          Order fresh vegetables at wholesale prices
-                        </p>
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="hub" className="space-y-4">
-                      <div className="text-center p-4 bg-accent/5 rounded-lg border">
-                        <Store className="h-12 w-12 text-accent mx-auto mb-2" />
-                        <h3 className="font-semibold">Hub Operator</h3>
-                        <p className="text-sm text-muted-foreground">
-                          Manage orders, inventory, and prep facilities
-                        </p>
-                      </div>
-                    </TabsContent>
-                  </Tabs>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Mobile Number</Label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="Enter 10-digit mobile number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                        className="pl-10"
-                        maxLength={10}
-                      />
-                    </div>
-                    {phone.length > 0 && phone.length < 10 && (
-                      <p className="text-sm text-destructive">Please enter a valid 10-digit number</p>
-                    )}
-                  </div>
-
-                  <Button 
-                    variant="market" 
-                    className="w-full" 
-                    onClick={handleSendOTP}
-                    disabled={phone.length !== 10 || isLoading}
-                  >
-                    {isLoading ? (
-                      "Sending OTP..."
-                    ) : (
-                      <>
-                        Send OTP
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <div className="text-center">
-                    <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Shield className="h-8 w-8 text-primary" />
-                    </div>
-                    <Badge variant="outline" className="mb-4">
-                      +91 {phone}
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="otp">6-Digit OTP</Label>
-                    <Input
-                      id="otp"
-                      type="text"
-                      placeholder="Enter OTP"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                      className="text-center text-xl tracking-widest"
-                      maxLength={6}
-                    />
-                    {otp.length > 0 && otp.length < 6 && (
-                      <p className="text-sm text-destructive">Please enter complete 6-digit OTP</p>
-                    )}
-                  </div>
-
-                  <Button 
-                    variant="market" 
-                    className="w-full" 
-                    onClick={handleVerifyOTP}
-                    disabled={otp.length !== 6 || isLoading}
-                  >
-                    {isLoading ? (
-                      "Verifying..."
-                    ) : (
-                      <>
-                        <CheckCircle className="mr-2 h-4 w-4" />
-                        Verify & Login
-                      </>
-                    )}
-                  </Button>
-
-                  <div className="text-center">
-                    <Button 
-                      variant="ghost" 
-                      onClick={() => setStep("phone")}
-                      className="text-sm"
-                    >
-                      Change mobile number
-                    </Button>
-                  </div>
-
-                  <div className="text-center">
+                <TabsContent value="vendor" className="space-y-4">
+                  <div className="text-center p-4 bg-primary/5 rounded-lg border">
+                    <Users className="h-12 w-12 text-primary mx-auto mb-2" />
+                    <h3 className="font-semibold">Street Food Vendor</h3>
                     <p className="text-sm text-muted-foreground">
-                      Didn't receive OTP?{" "}
-                      <Button variant="link" className="p-0 h-auto text-sm">
-                        Resend OTP
-                      </Button>
+                      Order fresh vegetables at wholesale prices
                     </p>
                   </div>
-                </>
-              )}
+                </TabsContent>
+
+                <TabsContent value="hub" className="space-y-4">
+                  <div className="text-center p-4 bg-accent/5 rounded-lg border">
+                    <Store className="h-12 w-12 text-accent mx-auto mb-2" />
+                    <h3 className="font-semibold">Hub Operator</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Manage orders, inventory, and prep facilities
+                    </p>
+                  </div>
+                </TabsContent>
+              </Tabs>
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Demo password: password123
+                </p>
+              </div>
+
+              <Button 
+                variant="market" 
+                className="w-full" 
+                onClick={handleLogin}
+                disabled={!email || !password || isLoading}
+              >
+                {isLoading ? (
+                  "Signing in..."
+                ) : (
+                  <>
+                    <CheckCircle className="mr-2 h-4 w-4" />
+                    Sign In
+                  </>
+                )}
+              </Button>
 
               <div className="text-center text-xs text-muted-foreground">
                 By continuing, you agree to our{" "}

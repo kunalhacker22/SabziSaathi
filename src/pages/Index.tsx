@@ -14,10 +14,10 @@ interface User {
 const Index = () => {
   const [user, setUser] = useState<User | null>(null);
 
-  const handleLogin = (userType: "vendor" | "hub", phone: string) => {
+  const handleLogin = (userType: "vendor" | "hub", email: string) => {
     // In a real app, this would validate with Supabase
     const name = userType === "vendor" ? "राज पटेल" : "Green Valley Hub";
-    setUser({ type: userType, phone, name });
+    setUser({ type: userType, phone: email, name });
   };
 
   if (!user) {

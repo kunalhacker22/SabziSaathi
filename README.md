@@ -1,6 +1,6 @@
 <div align="center">
   <br/>
-  <h1>🌱 SabziSaathi: Empowering Your Street Food Business 🥦</h1>
+  <h1>🌱SabziSaathi: Empowering Your Street Food Business🥦</h1>
   <p><b>Your All-in-One Platform for Fresh Vegetable Sourcing and Business Management</b></p>
 </div>
 

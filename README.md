@@ -40,7 +40,7 @@ Ready to experience the power of SabziSaathi? Follow these simple steps to get y
 
 ## 🏃‍♀️ SabziSaathi Web App
 
-**URL**: https://lovable.dev/projects/9213d2cb-b678-416d-9d0f-fa4858aa63fe
+**URL**: https://sabzi-saathi.vercel.app/
 
 ## 📺 Video Demonstration
 

@@ -46,7 +46,7 @@ Ready to experience the power of SabziSaathi? Follow these simple steps to get y
 
 Experience SabziSaathi in action! Watch our short demo video to see the key features and workflows:
 
-**URL**: https://youtu.be/FIneTbKUBVc
+**URL**: https://youtu.be/_OKuYc4whpk
 
 
 ## 🧑‍💻 Team Members
@@ -65,7 +65,7 @@ Experience SabziSaathi in action! Watch our short demo video to see the key feat
 For any inquiries or feedback, please feel free to reach out to:
 * **Ranjeet Singh** singhranjeet8810@gmail.com | https://www.linkedin.com/in/ranjeet-singh-a08961305/
 * **Kunal Srivastava** kunalsrivastava0406@gmail.com | https://www.linkedin.com/in/kunal-srivastava-/
-* **Piyush** piyushhkumar1432005@gmail.com | https://www.linkedin.com/in/piyush-kumar-5ab942324/
+* **Piyush Kumar** piyushhkumar1432005@gmail.com | https://www.linkedin.com/in/piyush-kumar-5ab942324/
   
 
 ---
